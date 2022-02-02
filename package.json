@@ -7,7 +7,8 @@
     "start": "next start",
     "lint": "next lint",
     "prepare": "npx husky install",
-    "pre-commit": "lint-staged"
+    "pre-commit": "lint-staged",
+    "test": "jest"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
@@ -20,16 +21,23 @@
     "react-dom": "17.0.2"
   },
   "devDependencies": {
+    "@testing-library/dom": "^8.11.3",
+    "@testing-library/jest-dom": "^5.16.1",
+    "@testing-library/react": "^12.1.2",
+    "@testing-library/user-event": "^13.5.0",
+    "@types/jest": "^27.4.0",
     "@types/node": "17.0.13",
     "@types/react": "17.0.38",
     "autoprefixer": "^10.4.2",
+    "babel-jest": "^27.4.6",
     "eslint": "8.8.0",
     "eslint-config-next": "12.0.9",
-    "postcss": "^8.4.6",
-    "tailwindcss": "^3.0.18",
     "git-commit-msg-linter": "^4.0.7",
     "husky": "^7.0.4",
+    "jest": "^27.4.7",
     "lint-staged": "^12.3.2",
+    "postcss": "^8.4.6",
+    "tailwindcss": "^3.0.18",
     "typescript": "4.5.5"
   }
 }
