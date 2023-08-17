@@ -11,7 +11,6 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { userService } from '../../core/factories/user.factory';
 
 function Copyright(props: any) {
@@ -19,7 +18,7 @@ function Copyright(props: any) {
     <Typography variant="body2" color="text.secondary" align="center" {...props}>
       {'Copyright © '}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        asbaba-corp
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -30,6 +29,7 @@ function Copyright(props: any) {
 // TODO remove, this demo shouldn't need to reset the theme.
 
 export default function SignUp() {
+  
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -43,10 +43,13 @@ export default function SignUp() {
     });
     const missingFields = requiredFields.filter(field => !fields.has(field));
     if (missingFields.length > 0) return
-    await userService.register({
-      email: fields.get('email') as string,
-      password: fields.get('password') as string,
-    });
+    try {
+      await userService.register({
+        email: fields.get('email') as string,
+        password: fields.get('password') as string,
+      })
+    } catch (err) {
+    }
   };
 
   return (
@@ -64,31 +67,11 @@ export default function SignUp() {
           <LockOutlinedIcon />
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign up
+          Registrar
         </Typography>
         <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
           <Grid container spacing={2}>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                autoComplete="given-name"
-                name="firstName"
-                required
-                fullWidth
-                id="firstName"
-                label="First Name"
-                autoFocus
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <TextField
-                required
-                fullWidth
-                id="lastName"
-                label="Last Name"
-                name="lastName"
-                autoComplete="family-name"
-              />
-            </Grid>
+            
             <Grid item xs={12}>
               <TextField
                 required
@@ -110,12 +93,7 @@ export default function SignUp() {
                 autoComplete="new-password"
               />
             </Grid>
-            <Grid item xs={12}>
-              <FormControlLabel
-                control={<Checkbox value="allowExtraEmails" color="primary" />}
-                label="I want to receive inspiration, marketing promotions and updates via email."
-              />
-            </Grid>
+
           </Grid>
           <Button
             type="submit"
@@ -123,12 +101,12 @@ export default function SignUp() {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
           >
-            Sign Up
+            Registrar
           </Button>
           <Grid container justifyContent="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
-                Already have an account? Sign in
+              <Link href="/user/login" variant="body2">
+                Já possuo uma conta
               </Link>
             </Grid>
           </Grid>
