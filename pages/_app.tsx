@@ -1,10 +1,19 @@
+import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
+import { useState } from 'react'
 
 function MyApp({ Component, pageProps }: AppProps) {
-  console.log(process.env.API_BASE_URL, process.env.NEXT_PUBLIC_API_BASE_URL)
+  const [queryClient] = useState(() => new QueryClient())
 
-  return <Component {...pageProps} />
+  return (
+  <QueryClientProvider client={queryClient}>
+    <Hydrate state={pageProps.dehydratedState}>
+      <Component {...pageProps} />
+    </Hydrate>
+  </QueryClientProvider>
+  )
+
 }
 
 export default MyApp

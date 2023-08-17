@@ -11,6 +11,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { userService } from '../../core/factories/user.factory';
 
 function Copyright(props: any) {
   return (
@@ -28,13 +29,26 @@ function Copyright(props: any) {
 
 export default function SignIn() {
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+    const requiredFields = ['email', 'password']
+    const fields = new Map<string, string>()
+    requiredFields.forEach(field => {
+      const value = data.get(field);
+      if (value) {
+        fields.set(field, value.toString());
+      }
     });
+    const missingFields = requiredFields.filter(field => !fields.has(field));
+    if (missingFields.length > 0) return
+    try {
+      await userService.login({
+        email: fields.get('email') as string,
+        password: fields.get('password') as string,
+      })
+    } catch (err) {
+    }
   };
 
   return (
