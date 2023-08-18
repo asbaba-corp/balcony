@@ -1,8 +1,17 @@
-import { useMutation } from 'react-query';
+import { useMutation, useQuery } from 'react-query';
 import { recipeService } from '../factories/recipes.factory';
 
 export const useListRecipes = () => {
-  const mutation = useMutation(() => recipeService.findAll());
+  const getRecipes = () => recipeService.findAll().then(data => {
+  console.log(data)
+  return data
+  })
+  const query = useQuery({
+    queryKey: ['recipes'],
+    queryFn: getRecipes,
 
-  return mutation;
+  });
+  console.log(query)
+
+  return query;
 };

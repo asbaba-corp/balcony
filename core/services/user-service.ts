@@ -3,6 +3,12 @@ import { HttpClient } from "../http-client/interface"
 
 export class UserService {
   constructor(private readonly httpClient: HttpClient) {}
+
+  async auth(token: string): Promise<boolean> {
+    const hasToken = !!await this.httpClient.post<string>('/auth', token)
+    return hasToken
+  }
+
   login(user: LoginUser) {
     const data = {
       email: user.email,

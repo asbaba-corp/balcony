@@ -1,10 +1,12 @@
 import { FormEvent, useState } from "react";
 import SearchInput from "../../components/search-input";
-import { SelectedRecipes } from "../../components/selected-recipes";
+import { SelectedRecipes } from "../../components/selected-ingredients";
 import { Recipes } from "../../../core/domains/recipes";
-import { Button} from "@mui/base";
-import { useRouter } from 'next/router';
+import { Button } from "@mui/base";
 import { recipeService } from "../../../core/factories/recipes.factory";
+import { useRouter } from "next/router";
+import { useRecipes } from "../../../contexts/recipe";
+import { LIST_RECIPES } from "../../../constants/app.routes";
 
 interface ListCompositionProps {
   recipes: {
@@ -20,23 +22,36 @@ export function serializeRecipesResponseToList(recipeResponse: Recipes[]) {
   }))
 }
 
-export default function SearchAndListRecipesSelectedComposition({ recipes }: ListCompositionProps) {
-  const [selectedRecipes, setSelectedRecipes] = useState<string[]>([])
-  const updateSelectedRecipes = (selectedRecipe: string) => {
-    setSelectedRecipes((prevState) => [...prevState, selectedRecipe]
+
+
+export default function SearchAndListIngredientsSelectedComposition({ recipes }: ListCompositionProps) {
+  const [selectedIngredients, setSelectedIngredients] = useState<string[]>([])
+  const { push } = useRouter()
+  const { setRecipes } = useRecipes();
+
+  
+  async function handleSearchRecipesByIngredients(ingredients: string[]) {
+    const recipes = await recipeService.findRecipesByIngredients(ingredients)
+    setRecipes(recipes)
+    push(LIST_RECIPES)
+  }
+  const updateSelectedIngredients = (selectedIngredient: string) => {
+    setSelectedIngredients((prevState) => [...prevState, selectedIngredient]
     )
   }
-
   async function handleFormSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    await recipeService.findRecipesByIngredients(selectedRecipes)
-    
+    await handleSearchRecipesByIngredients(selectedIngredients)
+  }
+  function removeIngredient(ingredient: string) {
+    const removedIngredient = selectedIngredients.filter(recipe => recipe !== ingredient)
+    setSelectedIngredients(removedIngredient)
   }
   return (
-  <form onSubmit={handleFormSubmit}>
-    <SearchInput recipes={recipes} handleChange={updateSelectedRecipes} />
-    <SelectedRecipes recipes={selectedRecipes} />
-    <Button type="submit">cataprato</Button>
-  </form>
+    <form onSubmit={handleFormSubmit}>
+      <SearchInput recipes={recipes} handleChange={updateSelectedIngredients} />
+      <SelectedRecipes ingredients={selectedIngredients} removeIngredient={removeIngredient} />
+      <Button type="submit">cataprato</Button>
+    </form>
   )
 }
