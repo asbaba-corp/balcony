@@ -29,7 +29,7 @@ export default function SearchAndListIngredientsSelectedComposition({ recipes }:
   const { push } = useRouter()
   const { setRecipes } = useRecipes();
 
-  
+
   async function handleSearchRecipesByIngredients(ingredients: string[]) {
     const recipes = await recipeService.findRecipesByIngredients(ingredients)
     setRecipes(recipes)

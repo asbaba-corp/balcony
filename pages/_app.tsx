@@ -1,4 +1,3 @@
-import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import '../styles/globals.css'
 import type { AppProps } from 'next/app'
 import { useState } from 'react'
@@ -6,6 +5,7 @@ import { useProtectRoute } from '../core/hooks/use-protected-routes'
 import { UserProvider } from '../contexts/user'
 import { RecipeProvider } from '../contexts/recipe'
 import { OPEN_ROUTES, PROTECTED_ROUTES } from '../constants/app.routes'
+import {QueryClient, QueryClientProvider, Hydrate} from 'react-query'
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [queryClient] = useState(() => new QueryClient())

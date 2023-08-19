@@ -34,7 +34,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/jest": "^27.4.0",
     "@types/node": "17.0.13",
-    "@types/react": "17.0.38",
+    "@types/react": "^18.2.20",
     "autoprefixer": "^10.4.2",
     "babel-jest": "^27.4.6",
     "eslint": "8.8.0",
