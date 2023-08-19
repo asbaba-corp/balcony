@@ -9,7 +9,7 @@ interface UserContextType {
   isLoggedIn: () => Promise<boolean>;
 }
 
-const UserContext = createContext<UserContextType | undefined>(undefined);
+const UserContext = createContext<UserContextType>({} as UserContextType);
 
 export const useUsers = () => {
   const context = useContext(UserContext);

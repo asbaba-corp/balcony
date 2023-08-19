@@ -19,6 +19,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       permittedRoutesWithToken: appRoutes.accessibleWithoutValidToken
     }
   });
+  if (typeof window === 'undefined') return
+
   return (
     <QueryClientProvider client={queryClient}>
       <Hydrate state={pageProps.dehydratedState}>
