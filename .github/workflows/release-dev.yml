@@ -1,0 +1,44 @@
+name: Release Dev Workflow
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Upload to Amazon S3
+    runs-on: ubuntu-latest
+    # These permissions are needed to interact with GitHub's OIDC Token endpoint.
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Configure AWS credentials from Test account
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: arn:aws:iam::350131064538:role/gh-dynamic-creds
+        aws-region: us-east-1
+
+    - name: Setup node
+      uses: actions/setup-node@v3
+      with:
+        node-version: 18.x
+        check-latest: true
+        cache: 'npm'
+            
+    - name: Install dependencies
+      run: npm ci --legacy-peer-deps
+      
+    - name: Build
+      run: npm run build 
+      
+    - name: Install only productions dependencies
+      run: npm ci --production --no-optional --legacy-peer-deps  
+    - name: Copy files to S3 with AWS CLI
+      run: |
+        aws s3 sync dist s3://balcony-frontend
+    
