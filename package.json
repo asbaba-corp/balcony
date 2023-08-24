@@ -3,15 +3,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run build:prepare && next build && npm run build:post",
-    "build:prepare": "chmod +x build.sh",
-    "build:post": "./build.sh",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "prepare": "npx husky install",
     "pre-commit": "lint-staged",
-    "test": "jest",
-    "deploy": "rm -rf node_modules/.cache && next build && touch dist/.nojekyll"
+    "test": "jest"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
