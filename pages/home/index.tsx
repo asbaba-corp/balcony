@@ -2,7 +2,8 @@ import { useListRecipes } from "../../core/hooks/use-list-recipes";
 import SearchAndListIngredientsSelectedComposition, { serializeRecipesResponseToList } from "../../ui/compositions/search-and-list-recipes-composition";
 
 export default function Home() {
-  const { data} = useListRecipes()
+  const { data } = useListRecipes()
+  console.log(data)
 
   if (!data) {
     return <span>ooops</span>
@@ -11,4 +12,3 @@ export default function Home() {
   return <SearchAndListIngredientsSelectedComposition recipes={recipesToList} />
 }
 
- 
