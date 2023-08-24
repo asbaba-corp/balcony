@@ -8,7 +8,8 @@
     "lint": "next lint",
     "prepare": "npx husky install",
     "pre-commit": "lint-staged",
-    "test": "jest"
+    "test": "jest",
+    "deploy": "rm -rf node_modules/.cache && next build && touch dist/.nojekyll"
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
